@@ -1,8 +1,8 @@
-from typing import Any
+from typing import Any, Optional
 
 
 class ArrayQueue:
-    def __init__(self, size: int):
+    def __init__(self, size: Optional[int] = 1):
         # Since this is implemented in python, it will be hilariously simple.
         # We don't have to worry about growing or shrinking the backing array.
         # Let's artificially limit the size of the backing array.
