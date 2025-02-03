@@ -6,7 +6,7 @@ class ArrayDeque:
         # Initialize a backing array and a variable to keep track of it's limit.
         # The limit variable is used here because it's cleaner than calling len(self.backing_array)
         # each time we need the max size the array can hold as there is no way in python to limit a list to a particular size.
-        self.backing_array: List[Any] = [None] * 1
+        self.backing_array: List[Any] = [None]
         self.array_limit = 1
         # calling len(self.backing_array) will return the array_limit which includes the None values.
         self.head = 0

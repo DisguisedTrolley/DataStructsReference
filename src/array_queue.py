@@ -1,14 +1,14 @@
-from typing import Any, Optional
+from typing import Any
 
 
 class ArrayQueue:
-    def __init__(self, size: Optional[int] = 1):
+    def __init__(self):
         # Since this is implemented in python, it will be hilariously simple.
         # We don't have to worry about growing or shrinking the backing array.
         # Let's artificially limit the size of the backing array.
         # To simulate that, we will init the array with None type elements.
-        self.backing_array = [None] * size
-        self.arr_limit = size
+        self.backing_array = [None]
+        self.arr_limit = 1
         self.head = 0
         # The number of elements stored in the array.
         # for the purposes of this impl. The 'None' element is considered as no element.
@@ -23,7 +23,7 @@ class ArrayQueue:
 
         self.backing_array = new_array
         self.head = 0
-        self.arr_limit = max(1, 2 * self.arr_size)
+        self.arr_limit = len(self.backing_array)
 
     def add(self, value: Any) -> bool:
         # Check if the backing array is already full.
@@ -37,8 +37,6 @@ class ArrayQueue:
         return True
 
     def remove(self) -> Any:
-        # Technically this is not necessary, because an "empty" array here only has 'None' values anyways.
-        # To replicate a 'Index out of bounds' edge case, the folloing condition is added.
         if self.arr_size == 0:
             return None
 
