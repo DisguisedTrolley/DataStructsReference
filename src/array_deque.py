@@ -44,7 +44,7 @@ class ArrayDeque:
             # Decerement the head pointer by 1
             # Mod operator is used is head is already at 0, the new head value will wrap around to the end.
             self.head = (self.head - 1) % self.array_limit
-            for k in range(index + 1):
+            for k in range(index):
                 new_val = self.backing_array[(self.head + k + 1) % self.array_limit]
                 self.backing_array[(self.head + k) % self.array_limit] = new_val
 
@@ -61,12 +61,36 @@ class ArrayDeque:
 
         return
 
-    def __repr__(self) -> str:
-        #  return f"Array: {self.backing_array}, Limit: {self.array_limit}, Size: {self.array_size}, Head: {self.head}"
-        ret_string = ""
-        for k in range(self.array_size):
-            val = self.backing_array[(self.head + k) % self.array_limit]
-            if val:
-                ret_string += f"{val} "
+    def remove(self, index: int) -> Any:
+        # Save the element to remove.
+        rem_val = self.backing_array[(self.head + index) % self.array_limit]
 
-        return ret_string
+        if index < int(self.array_size / 2):
+            # The range start from where the new array starts holding the values from.
+            # if the original values are in indices 0, 1, 2, and they have to be moved right,
+            # The new values should start from the higher value and move back, that is, the new indices are 3, 2, 1.
+
+            for k in range(index, 0, -1):
+                new_val = self.backing_array[(self.head + k - 1) % self.array_limit]
+                self.backing_array[(self.head + k) % self.array_limit] = new_val
+
+            self.head = (self.head + 1) % self.array_limit
+
+        else:
+            for k in range(index, self.array_size):
+                new_val = self.backing_array[(self.head + k + 1) % self.array_limit]
+                self.backing_array[(self.head + k) % self.array_limit] = new_val
+
+        self.array_size -= 1
+
+        if self.array_limit >= 3 * self.array_size:
+            self.resize()
+
+        return rem_val
+
+    def __repr__(self) -> str:
+        ret_string = "["
+        for k in range(self.array_size):
+            ret_string += f" {self.get(k)},"
+
+        return ret_string + "]"
