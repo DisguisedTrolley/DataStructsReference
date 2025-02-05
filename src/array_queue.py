@@ -55,5 +55,8 @@ class ArrayQueue:
 
         return ret_value
 
+    def size(self):
+        return self.arr_size
+
     def __repr__(self) -> str:
         return f"Array Elements: {self.backing_array}, Head: {self.head}, Size: {self.arr_size}, Max size: {self.arr_limit}"
