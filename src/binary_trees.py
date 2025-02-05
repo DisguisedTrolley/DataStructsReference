@@ -1,4 +1,6 @@
-from typing import Any, Optional
+from typing import Any, List, Optional
+
+from array_queue import ArrayQueue
 
 
 class TreeNode:
@@ -19,6 +21,12 @@ class TreeNode:
 
     def __gt__(self, value: "TreeNode") -> bool:
         return self.val is not None and self.val > value.val
+
+    def __le__(self, value: "TreeNode") -> bool:
+        return self.val and self.val <= value.val
+
+    def __ge__(self, value: "TreeNode") -> bool:
+        return self.val and self.val >= value.val
 
 
 class BSTree:
@@ -149,3 +157,43 @@ class BSTree:
 
         # reduce the overall size of the tree by one node.
         self.__size -= 1
+
+    def bf_trvel_range(self, lower: TreeNode, upper: TreeNode) -> List[Any]:
+        q = ArrayQueue()
+        if self.__root:
+            q.add(self.__root)
+
+        in_range_nodes = []
+        visited_nodes = []
+
+        while q.size() > 0:
+            node: TreeNode = q.remove()
+            visited_nodes.append(node.val)
+
+            if node.left and node > lower:
+                q.add(node.left)
+
+            if lower <= node <= upper:
+                in_range_nodes.append(node.val)
+
+            if node.right and node < upper:
+                q.add(node.right)
+
+        print(visited_nodes)
+        return in_range_nodes
+
+    def bt_travel(self):
+        q = ArrayQueue()
+        if self.__root:
+            q.add(self.__root)
+
+        while q.size() > 0:
+            node: TreeNode = q.remove()
+
+            print(node.val)
+
+            if node.left:
+                q.add(node.left)
+
+            if node.right:
+                q.add(node.right)
