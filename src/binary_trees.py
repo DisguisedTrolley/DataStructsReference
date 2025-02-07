@@ -121,7 +121,7 @@ class BSTree:
     def __splice(self, node: TreeNode) -> None:
         # Splicing a node is only possible when the target node has only one child,
         # Or the target node is a leaf node.
-        # Start by tracking the to be chil_node and its parent node.
+        # Start by tracking the to-be child_node and its parent node.
         new_node = None
         parent = None
 
@@ -158,17 +158,20 @@ class BSTree:
         # reduce the overall size of the tree by one node.
         self.__size -= 1
 
+    # A modified breadth first traversal algorithm to only include the nodes that are in a given range.
     def bf_trvel_range(self, lower: TreeNode, upper: TreeNode) -> List[Any]:
+        # The queue holds all the nodes we need to traverse through.
+        # Branches of tree that are outside the given range are "cut off".
         q = ArrayQueue()
+
+        # Start with the root node.
         if self.__root:
             q.add(self.__root)
 
         in_range_nodes = []
-        visited_nodes = []
 
         while q.size() > 0:
             node: TreeNode = q.remove()
-            visited_nodes.append(node.val)
 
             if node.left and node > lower:
                 q.add(node.left)
@@ -179,7 +182,6 @@ class BSTree:
             if node.right and node < upper:
                 q.add(node.right)
 
-        print(visited_nodes)
         return in_range_nodes
 
     def bt_travel(self):
